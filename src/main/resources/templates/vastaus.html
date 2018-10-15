@@ -1,0 +1,35 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Otsikko</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <h1>Kysymys:</h1>
+        <span th:text="${kysymys}">Kysymys</span>
+        <ul>
+            <li th:each="vastaus: ${vastaukset}">
+                Vastaus: 
+                <span th:text="${vastaus.vastausteksti}">tekst</span><br/>
+                Oikein?: 
+                <span th:text="${vastaus.oikein}">true</span><br/>
+                <form th:action="@{~/delet/{id}(id=${vastaus.id})}" method="POST">
+                    <input type="submit" value="Poista"/>
+                </form>
+            </li>
+        </ul>
+        <h2>Uuden vastauksen anto:</h2>
+        <form method="POST" action="/vastaukset">
+            Kysymyksen id: (Kyseisen kysymyksen id: <span th:text="${kysid}">id</span>)<br/>
+            <input type="text" name="kysymys_id"/><br/>
+            Vastaus:<br/>
+            <input type="text" name="vastaus"/><br/>
+            Onko oikein (TRUE/FALSE):<br/>
+            <input type="text" name="oikeus"/><br/>
+            <input type="submit" value="Uusi vastaus!"/>
+        </form>
+        <p><a href="/kysymykset">Kysymyksiin.</a></p>
+        <p><a href="/">Alkuun.</a></p>
+    </body>
+</html>
