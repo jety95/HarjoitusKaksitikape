@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.mycompany.harjoituskaksi;
+
+import java.sql.Connection;
 import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import java.sql.*;
 import java.util.HashMap;
@@ -18,7 +21,14 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 
 public class Main {
+public static Connection getConnection() throws Exception {
+    String dbUrl = System.getenv("JDBC_DATABASE_URL");
+    if (dbUrl != null && dbUrl.length() > 0) {
+        return DriverManager.getConnection(dbUrl);
+    }
 
+    return DriverManager.getConnection("jdbc:sqlite:Kysely.db");
+}
     public static void main(String[] args) throws Exception {
         if (System.getenv("PORT") != null) {
             Spark.port(Integer.valueOf(System.getenv("PORT")));
